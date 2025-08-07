@@ -2,12 +2,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import PROTECT
-from django.db.models import CharField
-from django.db.models import DateTimeField
-from django.db.models import ForeignKey
-from django.db.models import Model
-from django.db.models import UUIDField
+from django.db.models import PROTECT, CharField, DateTimeField, ForeignKey, Model, UUIDField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -34,16 +29,16 @@ class User(AbstractUser):
         """
         return reverse("users:detail", kwargs={"username": self.username})
 
+
 class BaseModel(Model):
     id = UUIDField(default=uuid.uuid4, primary_key=True)
     created_at = DateTimeField(db_index=True, default=timezone.now)
     updated_at = DateTimeField(auto_now=True)
     created_by = ForeignKey(User, on_delete=PROTECT)
 
-
-
     class Meta:
         abstract = True
+
 
 class Client(BaseModel):
     name = models.CharField(max_length=100)
@@ -61,9 +56,16 @@ class Product(BaseModel):
 
 class StockEntry(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"إدخال مخزون للعميل: {self.client.name}"
+
+
+class StockEntryItem(BaseModel):
+    stock_entry = models.ForeignKey(StockEntry, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     expiry_date = models.DateField()
     packet_count = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.client} - {self.product} - {self.expiry_date}"
+        return f"{self.product.name} - {self.expiry_date} - {self.packet_count} علبة"
