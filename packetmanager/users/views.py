@@ -6,7 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
-
+from django.shortcuts import render, redirect
+from .forms import StockEntryForm
 from packetmanager.users.models import User
 
 
@@ -44,3 +45,22 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+
+
+
+def create_stock_entry(request):
+    if request.method == "POST":
+        form = StockEntryForm(request.POST)
+        if form.is_valid():
+            stock_entry = form.save(commit=False)
+            stock_entry.created_by = request.user  # assign current user here!
+            stock_entry.save()
+            return redirect("users:stock-entry-success")
+    else:
+        form = StockEntryForm()
+    return render(request, "users/create_stock_entry.html", {"form": form})
+
+def stock_entry_success(request):
+    return render(request, "users/stock_entry_success.html")

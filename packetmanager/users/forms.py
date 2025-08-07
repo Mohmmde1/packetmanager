@@ -1,3 +1,6 @@
+from django import forms
+from .models import StockEntry
+
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from django.contrib.auth import forms as admin_forms
@@ -38,3 +41,30 @@ class UserSocialSignupForm(SocialSignupForm):
     Default fields will be added automatically.
     See UserSignupForm otherwise.
     """
+
+
+class StockEntryForm(forms.ModelForm):
+    expiry_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control w-full rounded-md border px-3 py-2"}),
+        label="تاريخ الانتهاء",
+    )
+
+    class Meta:
+        model = StockEntry
+        fields = ["client", "product", "expiry_date", "packet_count"]
+        labels = {
+            "client": "العميل",
+            "product": "المنتج",
+            "packet_count": "عدد العلب",
+        }
+        widgets = {
+            "client": forms.Select(attrs={
+                "class": "tom-select w-full rounded-md border px-3 py-2",
+            }),
+            "product": forms.Select(attrs={
+                "class": "tom-select w-full rounded-md border px-3 py-2",
+            }),
+            "packet_count": forms.NumberInput(attrs={
+                "class": "w-full rounded-md border px-3 py-2",
+            }),
+        }

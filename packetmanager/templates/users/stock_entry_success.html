@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}نجاح{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-4 rounded shadow text-center">
+    <h2 class="text-xl font-semibold mb-4 text-green-600">تم إنشاء إدخال المخزون بنجاح!</h2>
+    <a href="{% url 'users:create-stock-entry' %}" class="inline-block mt-4 px-4 py-2 bg-blue-600  rounded hover:bg-blue-700 transition">
+        إضافة إدخال جديد
+    </a>
+</div>
+{% endblock %}
