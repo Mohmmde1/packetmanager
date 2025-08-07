@@ -62,7 +62,8 @@ class StockEntry(BaseModel):
 
 
 class StockEntryItem(BaseModel):
-    stock_entry = models.ForeignKey(StockEntry, related_name="items", on_delete=models.CASCADE)
+    stock_entry = models.ForeignKey(StockEntry, related_name="items", 
+                                    on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     expiry_date = models.DateField()
     packet_count = models.PositiveIntegerField()

@@ -1,6 +1,8 @@
-from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from packetmanager.users.models import Client, Product  # Replace with your models
+from django.core.management.base import BaseCommand
+
+from packetmanager.users.models import Client  # Replace with your models
+from packetmanager.users.models import Product  # Replace with your models
 
 User = get_user_model()
 
@@ -35,7 +37,7 @@ class Command(BaseCommand):
         for name in clients:
             obj, created = Client.objects.get_or_create(
                 name=name,
-                defaults={"created_by": user}
+                defaults={"created_by": user},
             )
             if created:
                 created_clients += 1
@@ -43,7 +45,7 @@ class Command(BaseCommand):
         for name in products:
             obj, created = Product.objects.get_or_create(
                 name=name,
-                defaults={"created_by": user}
+                defaults={"created_by": user},
             )
             if created:
                 created_products += 1

@@ -28,9 +28,6 @@
 
   
   <link href="{% static 'css/project.css' %}" rel="stylesheet" />
-
-<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet" />
-
 {% endblock css %}
 <!-- Le javascript
     ================================================== -->
@@ -51,20 +48,6 @@
   <script defer src="{% static 'js/project.js' %}"></script>
 
 <script defer src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-<script defer>
-  document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('select.tom-select').forEach(function(el) {
-    new TomSelect(el, {
-      maxItems: 1,
-      searchField: ['text'],
-      placeholder: "ابحث واختر...",
-      dropdownDirection: "auto",
-      allowEmptyOption: false,
-    });
-  });
-});
-
-</script>
 
 {% endblock javascript %}
 </head>
